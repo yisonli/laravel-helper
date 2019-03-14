@@ -2,7 +2,7 @@
     "name": "yisonli/laravel-helper",
     "description": "common functions for PHP developer, base on laravel framwork.",
     "type": "project",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
         {
