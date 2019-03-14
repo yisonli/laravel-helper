@@ -1,12 +1,12 @@
 {
-    "name": "yison/laravel-helper",
+    "name": "yisonli/laravel-helper",
     "description": "common functions for PHP developer, base on laravel framwork.",
     "type": "project",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
         {
-            "name": "yison",
+            "name": "yisonli",
             "email": "yisonli@vip.qq.com"
         }
     ],
