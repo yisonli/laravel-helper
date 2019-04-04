@@ -11,11 +11,11 @@ class Get
      * @param string $url 访问的URL
      * @param array $params 参数
      * @param string $logCategory
-     * @param boolean $resultToJson 是否把结果转换为JSON
+     * @param boolean $retToArray 是否把结果转换为Array
      * @param boolean $needSplit 是否需要将返回内容截取1024字节到日志
      * @return bool|mixed ******************************************************************
      */
-    public static function run($url, $params = array(), $resultToJson = false, $logCategory = '[curl_info]', $needSplit = true)
+    public static function run($url, $params = array(), $retToArray = false, $logCategory = '[curl_info]', $needSplit = true)
     {
         if (strstr($url, '?') === false) {
             $url = $url . '?' . http_build_query($params);
@@ -57,7 +57,7 @@ class Get
 
 
         if (intval($status["http_code"]) == 200) {
-            return $resultToJson ? json_decode($content, true) : $content;
+            return $retToArray ? json_decode($content, true) : $content;
         } else {
             MonitorLog::getInstance()->error($logCategory . ' status ' , $status);
             return false;

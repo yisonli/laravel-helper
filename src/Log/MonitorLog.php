@@ -28,21 +28,42 @@ class MonitorLog
     {
         $file = $file ?: env('MONITOR_WARN_LOG');
         $logger = $this->getLogger($file);
-        $logger->warn($msg, $context);
+        $logger->warn($this->handleData($msg), $this->handleData($context));
     }
 
     public function error($msg, $context = [], $file = null)
     {
         $file = $file ?: env('MONITOR_ERROR_LOG');
         $logger = $this->getLogger($file);
-        $logger->error($msg, $context);
+        $logger->error($this->handleData($msg), $this->handleData($context));
     }
 
     public function info($msg, $context = [], $file = null)
     {
         $file = $file ?: env('MONITOR_INFO_LOG');
         $logger = $this->getLogger($file);
-        $logger->info($msg, $context);
+        $logger->info($this->handleData($msg), $this->handleData($context));
+    }
+
+    /**
+     * 日志脱敏
+     * @param $data
+     * @return array|mixed|string|string[]|null
+     */
+    public function handleData($data)
+    {
+        $res_data = $data;
+        $filter = env('MONITOR_FILTER', false);
+        if($filter) {
+            if(is_array($data)) {
+                $tmp = Sensitive::filter(json_encode($data));
+                $res_data = json_decode($tmp, true);
+                empty($res_data) && $res_data = [$tmp];     //避免脱敏后转不回array
+            } else {
+                $res_data = Sensitive::filter($data);
+            }
+        }
+        return $res_data;
     }
 
     public function getLogger($file)
@@ -53,7 +74,7 @@ class MonitorLog
             $handler = new StreamHandler($file);
             $pid = posix_getgid();
             $handler->setFormatter(
-                new LineFormatter("%datetime%,001 [Thread-{$pid}] %level_name% [xxx] [xxx:1] [trace=,span=,parent=,name=,app=,begintime=,endtime=] - %message%\n")
+                new LineFormatter("%datetime%,001 [Thread-{$pid}] %level_name% [%channel%] [xxx:1] [trace=,span=,parent=,name=,app=,begintime=,endtime=] - %message% %context%\n")
             );
             $log->pushHandler($handler);
             $this->loggerInstance[$key] = $log;
