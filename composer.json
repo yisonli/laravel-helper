@@ -11,11 +11,12 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "ext-openssl": "*"
     },
     "autoload": {
         "psr-4": {
-            "yisonli\\": "src/"
+            "LaravelHelper\\": "src/"
         }
     }
 }
