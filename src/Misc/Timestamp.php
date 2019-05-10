@@ -11,7 +11,7 @@ class TimeStamp
     public static function WithMicrosecond()
     {
         $time = date('YmdHis');
-        $millisecond = floor(microtime() * 1000);//取得毫秒秒数
+        $millisecond = floor((float)microtime() * 1000);//取得毫秒秒数
         $millisecond = str_pad($millisecond, 3, '0', STR_PAD_LEFT);//未满三位，补零
 
         return $time . $millisecond;

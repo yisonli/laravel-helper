@@ -34,7 +34,7 @@ class Datas
         $result = [];
         foreach ($data as $key => $item) {
             if (is_array($item) || is_object($item)) {
-                $result[self::humpToLine($key)] = self::convertToLine((array)$item);
+                $result[self::humpToLine($key)] = self::arrayToLine((array)$item);
             } else {
                 $result[self::humpToLine($key)] = $item;
             }
@@ -50,7 +50,7 @@ class Datas
         $result = [];
         foreach ($data as $key => $item) {
             if (is_array($item) || is_object($item)) {
-                $result[self::lineToHump($key)] = self::convertToHump((array)$item);
+                $result[self::lineToHump($key)] = self::arrayToHump((array)$item);
             } else {
                 $result[self::lineToHump($key)] = $item;
             }
