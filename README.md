@@ -2,7 +2,7 @@
 
 ## Install
 ```
-composer require yisonli/laravel-helper:0.2
+composer require yisonli/laravel-helper:0.4
 ```
 
 ## Directory

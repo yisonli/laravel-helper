@@ -22,7 +22,7 @@ class Response
             'data' => $isHump ? Datas::convertHump($result) : $result,
             'message' => $error['msg'],
         ];
-        $urlHeaders = ['content-type' => 'application/json'];
+        $urlHeaders = ['content-type' => 'application/json;charset=utf-8'];
         $header = array_merge($header, $urlHeaders);
         return response(json_encode($response, JSON_UNESCAPED_UNICODE), 200, $header);
     }
@@ -40,7 +40,7 @@ class Response
             'errorCode' => $error['code'],
             'message' => $message ? $message : $error['msg'],
         ];
-        $urlHeaders = ['content-type' => 'application/json'];
+        $urlHeaders = ['content-type' => 'application/json;charset=utf-8'];
         $header = array_merge($header, $urlHeaders);
         if (config("app.env") != 'prod') {
             $response['message'] = '[' . config("app.env") . ']' . $response['message'];
@@ -63,7 +63,10 @@ class Response
             'errorCode' => $error['code'],
             'message' => !empty($message) ? $message : $error['msg'],
         ];
-        $header = $header + ['Access-Control-Allow-Origin' => '*'];
+        $header = array_merge($header, [
+            'Access-Control-Allow-Origin' => '*',
+            'content-type' => 'application/json;charset=utf-8'
+        ]);
         return response(json_encode($response, JSON_UNESCAPED_UNICODE), $status, $header);
     }
 
