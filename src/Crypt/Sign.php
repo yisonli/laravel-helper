@@ -15,28 +15,18 @@ class Sign
      */
     public static function getSign($arr_data, $token, $method = "md5")
     {
-        if (!function_exists($method)) {
+        if (!function_exists($method)) {    //不支持的签名方法
             return false;
         }
 
-        ksort($arr_data, SORT_STRING);
-        $arr_data['key'] = $token;
-        $param_string = "";
+        ksort($arr_data, SORT_STRING);      //按字典序排序参数
+        $param_string = self::mergeParamString($arr_data);
 
-        foreach ($arr_data as $key => $value) {
-            if (!$value) {
-                unset($arr_data[$key]);
-            }
-
-            if (strlen($param_string) == 0) {
-                $param_string .= $key . "=" . $value;
-            } else {
-                $param_string .= "&" . $key . "=" . $value;
-            }
-        }
+	$param_string = $param_string . "&key=".$token;     //在string后加入KEY
 
         $tmp_sign = $method($param_string);
-        $sign = strtoupper($tmp_sign);
+
+        $sign = strtoupper($tmp_sign);      //所有字符转为大写
         return $sign;
     }
 
@@ -60,17 +50,15 @@ class Sign
 
     public static function mergeParamString($arr_data)
     {
-        $param_string = '';
-        foreach ($arr_data as $key => $value) {
-            if (!$value) {
-                unset($arr_data[$key]);
-            }
-            if (strlen($param_string) == 0) {
-                $param_string .= $key . "=" . $value;
-            } else {
-                $param_string .= "&" . $key . "=" . $value;
+        $buff = "";
+        foreach ($arr_data as $k => $v)
+        {
+            if($k != "sign" && $v != "" && !is_array($v)){
+                $buff .= $k . "=" . $v . "&";
             }
         }
-        return $param_string;
+
+        $buff = trim($buff, "&");
+        return $buff;
     }
 }

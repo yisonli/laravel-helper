@@ -19,7 +19,7 @@ class Response
         $error = ResCode::SUCCESS;
         $response = [
             'errorCode' => $error['code'],
-            'data' => $isHump ? Datas::convertHump($result) : $result,
+            'data' => $isHump ? Datas::arrayToHump($result) : $result,
             'message' => $error['msg'],
         ];
         $urlHeaders = ['content-type' => 'application/json;charset=utf-8'];

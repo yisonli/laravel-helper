@@ -16,7 +16,7 @@ class Post
      * @param boolean $needSplit 是否需要将返回内容截取1024字节到日志
      * @return bool|mixed ******************************************************************
      */
-    public static function run($url, $params, $retToArray = false, $logCategory = "[curl_info]", $redirectUrl = false, $needSplit = true)
+    public static function run($url, $params, $retToArray = false, $logCategory = "[curl_info]", $redirectUrl = false, $needSplit = false)
     {
         if ($logCategory) {
             MonitorLog::getInstance()->info($logCategory . 'url:' . $url . '; params:' , $params);

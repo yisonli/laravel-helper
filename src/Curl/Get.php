@@ -15,7 +15,7 @@ class Get
      * @param boolean $needSplit 是否需要将返回内容截取1024字节到日志
      * @return bool|mixed ******************************************************************
      */
-    public static function run($url, $params = array(), $retToArray = false, $logCategory = '[curl_info]', $needSplit = true)
+    public static function run($url, $params = array(), $retToArray = false, $logCategory = '[curl_info]', $needSplit = false)
     {
         if (strstr($url, '?') === false) {
             $url = $url . '?' . http_build_query($params);
