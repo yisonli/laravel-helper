@@ -37,9 +37,9 @@ For debugging and checking, some methods use custom logs, so you need to add the
 
 ```
 USE_MONITOR_LOG=1
-MONITOR_ERROR_LOG=/tmp/${APP_NAME}/logs/error.log
-MONITOR_WARN_LOG=/tmp/${APP_NAME}/logs/warn.log
-MONITOR_INFO_LOG=/tmp/${APP_NAME}/logs/info.log
+MONITOR_ERROR_LOG=/tmp/${APP_NAME}/logs/%DATE%_error.log
+MONITOR_WARN_LOG=/tmp/${APP_NAME}/logs/%DATE%_warn.log
+MONITOR_INFO_LOG=/tmp/${APP_NAME}/logs/%DATE%_info.log
 ```
 
 ## Usage

@@ -26,21 +26,22 @@ class MonitorLog
 
     public function warn($msg, $context = [], $file = null)
     {
-        $file = $file ?: env('MONITOR_WARN_LOG');
+
+        $file = $file ?: str_replace('%DATE%', date('Ymd'), env('MONITOR_WARN_LOG'));
         $logger = $this->getLogger($file);
         $logger->warn($this->handleData($msg), $this->handleData($context));
     }
 
     public function error($msg, $context = [], $file = null)
     {
-        $file = $file ?: env('MONITOR_ERROR_LOG');
+        $file = $file ?: str_replace('%DATE%', date('Ymd'), env('MONITOR_ERROR_LOG'));
         $logger = $this->getLogger($file);
         $logger->error($this->handleData($msg), $this->handleData($context));
     }
 
     public function info($msg, $context = [], $file = null)
     {
-        $file = $file ?: env('MONITOR_INFO_LOG');
+        $file = $file ?: str_replace('%DATE%', date('Ymd'), env('MONITOR_INFO_LOG'));
         $logger = $this->getLogger($file);
         $logger->info($this->handleData($msg), $this->handleData($context));
     }
@@ -70,6 +71,9 @@ class MonitorLog
     {
         $key = md5($file);
         if (!isset($this->loggerInstance[$key])) {
+            // 创建新的Logger前, 先要释放昨天的文件
+            $this->closeYesterdayLogs();
+
             $log = new Logger('MONITOR_LOG');
             $handler = new StreamHandler($file);
             $pid = posix_getgid();
@@ -80,6 +84,29 @@ class MonitorLog
             $this->loggerInstance[$key] = $log;
         }
         return $this->loggerInstance[$key];
+    }
+
+    public function closeLogger($file)
+    {
+        $key = md5($file);
+        if (isset($this->loggerInstance[$key])) {
+            $this->loggerInstance[$key]->close();
+        }
+        return true;
+    }
+
+    public function closeYesterdayLogs()
+    {
+        $yesterday = date('Ymd', strtotime('yesterday'));
+        $files = [
+            str_replace('%DATE%',$yesterday,env('MONITOR_ERROR_LOG')),
+            str_replace('%DATE%',$yesterday,env('MONITOR_WARN_LOG')),
+            str_replace('%DATE%',$yesterday,env('MONITOR_INFO_LOG')),
+        ];
+        foreach ($files as $file) {
+            $this->closeLogger($file);
+        }
+        return true;
     }
 
 }

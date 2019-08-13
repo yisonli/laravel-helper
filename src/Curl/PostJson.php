@@ -61,7 +61,7 @@ class PostJson
 
         $error = curl_error($ch);
         if (!empty($error)) {
-            MonitorLog::getInstance()->error($error, 'curl_error');
+            MonitorLog::getInstance()->error($logCategory.$error);
         }
         $resultContet = (is_array($result) ? json_encode($result) : $result);
         if ($needSplit) {

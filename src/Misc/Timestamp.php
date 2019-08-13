@@ -44,4 +44,15 @@ class TimeStamp
         return $strH . $strM . $strS;
     }
 
+    //年1位 + 月1位 + 日2位 + 时间戳后5位 = 9位
+    public static function specialDate($base_year='2019')
+    {
+        $codeOfYear = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        ];  //总共支持58年
+        $diff_year = (intval(date('Y')) - $base_year) % count($codeOfYear);
+        return $codeOfYear[$diff_year] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5);
+    }
 }
