@@ -15,7 +15,7 @@ class Sensitive
             'replacement' => '$1****$3'
         ],
         'identity_18' => [
-            'pattern' => '/(\W\d{3})\d{11}(\d{3}[\d|x]\W)/',
+            'pattern' => '/(\W\d{3})\d{11}(\d{3}[\d|x|X]\W)/',
             'replacement' => '$1****$2'
         ],
         'identity_15' => [
